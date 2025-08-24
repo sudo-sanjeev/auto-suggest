@@ -1,0 +1,34 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.search-container {
+  width: 500px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+
+.suggestion-container {
+  width: 500px;
+  margin: auto;
+  max-height: 500px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  text-align: left;
+}
+
+.suggestion {
+  display: block;
+  padding: 5px;
+}
+
+.suggestion:hover {
+  background-color: beige;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background: beige;
+}
