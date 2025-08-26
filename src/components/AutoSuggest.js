@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function AutoSuggest() {
   const [searchQuery, setSearchQuery] = useState("");
   const [recipes, setRecipes] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [cashe, setCashe] = useState({});
+  const [cache, setCache] = useState({});
+
+  const abortController = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(fetchRecipes, 300);
@@ -14,16 +16,24 @@ export default function AutoSuggest() {
   }, [searchQuery]);
 
   async function fetchRecipes() {
-    if (cashe[searchQuery]) {
-      setRecipes(cashe[searchQuery]);
+    if (cache[searchQuery]) {
+      setRecipes(cache[searchQuery]);
       return;
     }
+
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+
+    abortController.current = new AbortController();
+
     const res = await fetch(
-      `https://dummyjson.com/recipes/search?q=${searchQuery}`
+      `https://dummyjson.com/recipes/search?q=${searchQuery}`,
+      { signal: abortController.signal }
     );
     const json = await res.json();
     setRecipes(json?.recipes);
-    setCashe((prev) => ({ ...prev, [searchQuery]: json?.recipes }));
+    setCache((prev) => ({ ...prev, [searchQuery]: json?.recipes }));
   }
 
   function handleInputChange(e) {
