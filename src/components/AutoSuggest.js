@@ -1,37 +1,20 @@
 import { useState } from "react";
-import { useCustomFetch } from "./Hooks/useCustomFetch";
+import { useRecipeSearch } from "../hooks/useRecipeSearch";
+import SearchInput from "./SearchInput";
+import SuggestionList from "./SuggestionList";
 
 export default function AutoSuggest() {
   const [showResults, setShowResults] = useState(false);
-  const { data, error, setQuery } = useCustomFetch(
-    "https://dummyjson.com/recipes/search"
-  );
-
-  function handleInputChange(e) {
-    setQuery(e.target.value);
-  }
+  const { data, error, setQuery } = useRecipeSearch();
 
   return (
     <div>
-      <input
-        className="search-container"
-        onChange={(e) => handleInputChange(e)}
-        onBlur={() => {
-          setShowResults(false);
-        }}
-        onFocus={(e) => {
-          setShowResults(true);
-        }}
-      ></input>
-      {showResults && data && !error && (
-        <div className="suggestion-container">
-          {data.map((r) => (
-            <span className="suggestion" key={r.id}>
-              {r.name}
-            </span>
-          ))}
-        </div>
-      )}
+      <SearchInput
+        onSearch={setQuery}
+        onFocus={() => setShowResults(true)}
+        onBlur={() => setShowResults(false)}
+      />
+      <SuggestionList suggestions={data} isVisible={showResults && !error} />
     </div>
   );
 }
