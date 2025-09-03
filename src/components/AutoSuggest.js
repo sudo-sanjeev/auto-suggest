@@ -16,14 +16,14 @@ export default function AutoSuggest() {
       <input
         className="search-container"
         onChange={(e) => handleInputChange(e)}
-        onBlur={(e) => {
+        onBlur={() => {
           setShowResults(false);
         }}
         onFocus={(e) => {
           setShowResults(true);
         }}
       ></input>
-      {showResults && data && error && (
+      {showResults && data && !error && (
         <div className="suggestion-container">
           {data.map((r) => (
             <span className="suggestion" key={r.id}>
