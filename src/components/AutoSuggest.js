@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useCustomFetch } from "../Hooks/useCustomFetch";
+import { useCustomFetch } from "./Hooks/useCustomFetch";
 
 export default function AutoSuggest() {
   const [showResults, setShowResults] = useState(false);
-  const {data, error, setQuery}= useCustomFetch("https://dummyjson.com/recipes/search");
+  const { data, error, setQuery } = useCustomFetch(
+    "https://dummyjson.com/recipes/search"
+  );
 
   function handleInputChange(e) {
     setQuery(e.target.value);
