@@ -37,13 +37,24 @@ export default function AutoSuggest() {
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
+
       {loading && showResults && <div className="loading">Searching...</div>}
+
       {error && showResults && (
         <div className="error-message">Error: {error}</div>
       )}
+
+      {!loading &&
+        !error &&
+        showResults &&
+        data?.length === 0 &&
+        query.length > 0 && (
+          <div className="no-results">No recipes found for "{query}"</div>
+        )}
+
       <SuggestionList
         suggestions={data}
-        isVisible={showResults && !error && !loading}
+        isVisible={showResults && !error && !loading && data?.length > 0}
         onSuggestionClick={handleSuggestionSelect}
       />
     </div>

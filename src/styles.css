@@ -52,3 +52,15 @@
   color: #d32f2f;
   font-weight: 500;
 }
+
+.no-results {
+  width: 500px;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-top: none;
+  background: #f9f9f9;
+  color: #666;
+  font-style: italic;
+}
