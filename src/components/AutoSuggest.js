@@ -5,7 +5,7 @@ import SuggestionList from "./SuggestionList";
 
 export default function AutoSuggest() {
   const [showResults, setShowResults] = useState(false);
-  const { data, error, query, setQuery } = useRecipeSearch();
+  const { data, error, query, loading, setQuery } = useRecipeSearch();
   const blurTimeoutRef = useRef(null);
 
   const handleFocus = () => {
@@ -37,9 +37,13 @@ export default function AutoSuggest() {
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
+      {loading && showResults && <div className="loading">Searching...</div>}
+      {error && showResults && (
+        <div className="error-message">Error: {error}</div>
+      )}
       <SuggestionList
         suggestions={data}
-        isVisible={showResults && !error}
+        isVisible={showResults && !error && !loading}
         onSuggestionClick={handleSuggestionSelect}
       />
     </div>

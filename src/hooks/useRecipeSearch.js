@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 export const useRecipeSearch = (debounceTime = 300) => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [cache, setCache] = useState({});
 
@@ -23,6 +24,7 @@ export const useRecipeSearch = (debounceTime = 300) => {
     }
 
     abortController.current = new AbortController();
+    setLoading(true);
 
     try {
       const res = await fetch(
@@ -41,6 +43,8 @@ export const useRecipeSearch = (debounceTime = 300) => {
       if (err.name !== "AbortError") {
         setError(err.message || "Failed to fetch results");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,5 +55,5 @@ export const useRecipeSearch = (debounceTime = 300) => {
     return () => clearTimeout(timer);
   }, [query]);
 
-  return { data, error, query, setQuery };
+  return { data, error, query, loading, setQuery };
 };
