@@ -51,5 +51,5 @@ export const useRecipeSearch = (debounceTime = 300) => {
     return () => clearTimeout(timer);
   }, [query]);
 
-  return { data, error, setQuery };
+  return { data, error, query, setQuery };
 };

@@ -1,4 +1,4 @@
-export default function SearchInput({ onSearch, onFocus, onBlur }) {
+export default function SearchInput({ value, onSearch, onFocus, onBlur }) {
   const handleInputChange = (e) => {
     onSearch(e.target.value);
   };
@@ -7,6 +7,7 @@ export default function SearchInput({ onSearch, onFocus, onBlur }) {
     <input
       className="search-container"
       placeholder="Search recipes..."
+      value={value}
       onChange={handleInputChange}
       onFocus={onFocus}
       onBlur={onBlur}
