@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-export const useRecipeSearch = (debounceTime = 300) => {
+export const useCustomFetch = (fetchSuggestions, debounceTime = 300) => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,18 +27,9 @@ export const useRecipeSearch = (debounceTime = 300) => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `https://dummyjson.com/recipes/search?q=${query}`,
-        {
-          signal: abortController.current.signal,
-        }
-      );
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      setData(data?.recipes);
-      setCache((prev) => ({ ...prev, [query]: data?.recipes }));
+      const data = await fetchSuggestions(query, abortController.current);
+      setData(data);
+      setCache((prev) => ({ ...prev, [query]: data }));
     } catch (err) {
       if (err.name !== "AbortError") {
         setError(err.message || "Failed to fetch results");

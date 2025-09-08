@@ -1,26 +1,60 @@
 export default function SuggestionList({
   suggestions,
-  isVisible,
+  loading,
+  error,
   onSuggestionClick,
+  dataKey = "",
+  customLoading = "Loading...",
+  noResultsMessage = "No results found",
 }) {
-  if (!isVisible || !suggestions?.length) {
-    return null;
+  if (loading) {
+    return (
+      <ul className="suggestion-container">
+        <li className="loading">{customLoading}</li>
+      </ul>
+    );
+  }
+
+  if (error) {
+    return (
+      <ul className="suggestion-container">
+        <li className="error-message">Oops! Something went wrong.</li>
+      </ul>
+    );
+  }
+
+  const validSuggestions =
+    suggestions?.filter((suggestion) => {
+      if (!suggestion) return false;
+      if (dataKey) {
+        return suggestion[dataKey] && suggestion[dataKey].toString().trim();
+      }
+      return suggestion.toString().trim();
+    }) || [];
+
+  if (validSuggestions.length === 0) {
+    return (
+      <ul className="suggestion-container">
+        <li className="no-results">{noResultsMessage}</li>
+      </ul>
+    );
   }
 
   return (
-    <div className="suggestion-container">
-      {suggestions.map((recipe) => {
+    <ul className="suggestion-container">
+      {validSuggestions.map((suggestion) => {
+        const displayValue = dataKey ? suggestion[dataKey] : suggestion;
         return (
-          <div
-            key={recipe.id}
+          <li
+            key={suggestion.id}
             className="suggestion"
-            onClick={() => onSuggestionClick(recipe)}
+            onClick={() => onSuggestionClick(suggestion)}
             onMouseDown={(e) => e.preventDefault()}
           >
-            {recipe.name}
-          </div>
+            {displayValue}
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }

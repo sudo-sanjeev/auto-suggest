@@ -1,11 +1,18 @@
 import { useRef, useState } from "react";
-import { useRecipeSearch } from "../hooks/useRecipeSearch";
-import SearchInput from "./SearchInput";
+import { useCustomFetch } from "../hooks/useCustomFetch";
 import SuggestionList from "./SuggestionList";
+import "./styles.css";
 
-export default function AutoSuggest() {
+export default function AutoSuggest({
+  placeholder = "Search...",
+  customLoading = "Loading...",
+  noResultsMessage = "No result found",
+  dataKey = "name",
+  fetchSuggestions,
+}) {
   const [showResults, setShowResults] = useState(false);
-  const { data, error, query, loading, setQuery } = useRecipeSearch();
+  const { data, error, query, loading, setQuery } =
+    useCustomFetch(fetchSuggestions);
   const blurTimeoutRef = useRef(null);
 
   const handleFocus = () => {
@@ -21,8 +28,9 @@ export default function AutoSuggest() {
     }, 250);
   };
 
-  const handleSuggestionSelect = (recipe) => {
-    setQuery(recipe.name);
+  const handleSuggestionSelect = (item) => {
+    const displayValue = dataKey ? item[dataKey] : item;
+    setQuery(displayValue);
     setShowResults(false);
     if (blurTimeoutRef.current) {
       clearTimeout(blurTimeoutRef.current);
@@ -31,32 +39,27 @@ export default function AutoSuggest() {
 
   return (
     <div>
-      <SearchInput
+      <input
+        className="search-container"
+        placeholder={placeholder}
         value={query}
-        onSearch={setQuery}
+        onChange={(e) => {
+          setQuery(e.target.value);
+        }}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
-
-      {loading && showResults && <div className="loading">Searching...</div>}
-
-      {error && showResults && (
-        <div className="error-message">Error: {error}</div>
-      )}
-
-      {!loading &&
-        !error &&
-        showResults &&
-        data?.length === 0 &&
-        query.length > 0 && (
-          <div className="no-results">No recipes found for "{query}"</div>
-        )}
-
-      <SuggestionList
-        suggestions={data}
-        isVisible={showResults && !error && !loading && data?.length > 0}
-        onSuggestionClick={handleSuggestionSelect}
-      />
+      {
+        <SuggestionList
+          loading={loading}
+          error={error}
+          suggestions={data}
+          onSuggestionClick={handleSuggestionSelect}
+          dataKey={dataKey}
+          customLoading={customLoading}
+          noResultsMessage={noResultsMessage}
+        />
+      }
     </div>
   );
 }
