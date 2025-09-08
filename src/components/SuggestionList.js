@@ -36,6 +36,8 @@ export default function SuggestionList({
             onClick={() => onSuggestionClick(suggestion)}
             onMouseDown={(e) => e.preventDefault()}
             onMouseEnter={() => onMouseEnter(index)}
+            role="option"
+            aria-selected={isActive}
           >
             {displayValue}
           </li>

@@ -68,9 +68,12 @@ export default function AutoSuggest({
         onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        role="combobox"
+        aria-expanded={showResults}
+        aria-autocomplete="list"
       />
       {showResults && (
-        <ul className="suggestion-container">
+        <ul className="suggestion-container" role="listbox">
           <SuggestionList
             loading={loading}
             error={error}

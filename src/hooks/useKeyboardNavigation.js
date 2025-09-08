@@ -12,7 +12,6 @@ export const useKeyboardNavigation = (
     setActiveIndex(-1);
   }, [data]);
 
-  // Ref callback for scrolling active item into view
   const scrollToActiveItem = (element) => {
     if (element) {
       element.scrollIntoView({
