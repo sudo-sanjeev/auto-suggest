@@ -6,55 +6,41 @@ export default function SuggestionList({
   dataKey = "",
   customLoading = "Loading...",
   noResultsMessage = "No results found",
+  activeIndex = -1,
+  onMouseEnter = () => {},
+  scrollToActiveItem = () => {},
 }) {
   if (loading) {
-    return (
-      <ul className="suggestion-container">
-        <li className="loading">{customLoading}</li>
-      </ul>
-    );
+    return <li className="loading">{customLoading}</li>;
   }
 
   if (error) {
-    return (
-      <ul className="suggestion-container">
-        <li className="error-message">Oops! Something went wrong.</li>
-      </ul>
-    );
+    return <li className="error-message">Oops! Something went wrong.</li>;
   }
 
-  const validSuggestions =
-    suggestions?.filter((suggestion) => {
-      if (!suggestion) return false;
-      if (dataKey) {
-        return suggestion[dataKey] && suggestion[dataKey].toString().trim();
-      }
-      return suggestion.toString().trim();
-    }) || [];
-
-  if (validSuggestions.length === 0) {
-    return (
-      <ul className="suggestion-container">
-        <li className="no-results">{noResultsMessage}</li>
-      </ul>
-    );
+  if (!suggestions || suggestions.length === 0) {
+    return <li className="no-results">{noResultsMessage}</li>;
   }
 
   return (
-    <ul className="suggestion-container">
-      {validSuggestions.map((suggestion) => {
+    <>
+      {suggestions.map((suggestion, index) => {
         const displayValue = dataKey ? suggestion[dataKey] : suggestion;
+        const isActive = index === activeIndex;
+
         return (
           <li
             key={suggestion.id}
-            className="suggestion"
+            ref={isActive ? scrollToActiveItem : null}
+            className={`suggestion ${isActive ? "suggestion-active" : ""}`}
             onClick={() => onSuggestionClick(suggestion)}
             onMouseDown={(e) => e.preventDefault()}
+            onMouseEnter={() => onMouseEnter(index)}
           >
             {displayValue}
           </li>
         );
       })}
-    </ul>
+    </>
   );
 }

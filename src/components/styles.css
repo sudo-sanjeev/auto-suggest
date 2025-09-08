@@ -45,8 +45,14 @@
   transition: all 0.15s ease;
 }
 
-.suggestion:hover {
+.suggestion:hover,
+.suggestion-active {
   background: #f8f9fa;
+  border-left-color: #4285f4;
+}
+
+.suggestion-active {
+  background: #e8f0fe;
 }
 
 .loading,

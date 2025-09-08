@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useCustomFetch } from "../hooks/useCustomFetch";
+import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
 import SuggestionList from "./SuggestionList";
 import "./styles.css";
 
@@ -15,6 +16,32 @@ export default function AutoSuggest({
     useCustomFetch(fetchSuggestions);
   const blurTimeoutRef = useRef(null);
 
+  const handleClose = () => {
+    setShowResults(false);
+  };
+
+  const handleSuggestionSelect = (item) => {
+    const displayValue = dataKey ? item[dataKey] : item;
+    setQuery(displayValue);
+    setShowResults(false);
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
+  };
+
+  const {
+    activeIndex,
+    handleKeyDown,
+    setActiveIndex,
+    resetActiveIndex,
+    scrollToActiveItem,
+  } = useKeyboardNavigation(
+    data,
+    handleSuggestionSelect,
+    handleClose,
+    showResults
+  );
+
   const handleFocus = () => {
     if (blurTimeoutRef.current) {
       clearTimeout(blurTimeoutRef.current);
@@ -25,16 +52,8 @@ export default function AutoSuggest({
   const handleBlur = () => {
     blurTimeoutRef.current = setTimeout(() => {
       setShowResults(false);
+      resetActiveIndex();
     }, 250);
-  };
-
-  const handleSuggestionSelect = (item) => {
-    const displayValue = dataKey ? item[dataKey] : item;
-    setQuery(displayValue);
-    setShowResults(false);
-    if (blurTimeoutRef.current) {
-      clearTimeout(blurTimeoutRef.current);
-    }
   };
 
   return (
@@ -48,17 +67,23 @@ export default function AutoSuggest({
         }}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       />
       {showResults && (
-        <SuggestionList
-          loading={loading}
-          error={error}
-          suggestions={data}
-          onSuggestionClick={handleSuggestionSelect}
-          dataKey={dataKey}
-          customLoading={customLoading}
-          noResultsMessage={noResultsMessage}
-        />
+        <ul className="suggestion-container">
+          <SuggestionList
+            loading={loading}
+            error={error}
+            suggestions={data}
+            onSuggestionClick={handleSuggestionSelect}
+            dataKey={dataKey}
+            customLoading={customLoading}
+            noResultsMessage={noResultsMessage}
+            activeIndex={activeIndex}
+            onMouseEnter={setActiveIndex}
+            scrollToActiveItem={scrollToActiveItem}
+          />
+        </ul>
       )}
     </div>
   );
