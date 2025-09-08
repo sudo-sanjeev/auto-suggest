@@ -15,7 +15,31 @@ export default function App() {
 
   return (
     <div className="App">
-      <AutoSuggest fetchSuggestions={fetchSuggestions}></AutoSuggest>
+      <div className="demo-wrapper">
+        <div className="demo-card">
+          <h2 className="demo-title">Autosuggest Demo</h2>
+          <p className="demo-subtitle">Start typing to search recipes</p>
+          <div className="demo-inputs">
+            <AutoSuggest
+              placeholder="Search recipes..."
+              customLoading="Searching..."
+              dataKey="name"
+              fetchSuggestions={fetchSuggestions}
+              autoFocus
+            />
+          </div>
+          <div className="demo-features">
+            <div>⌨️ Keyboard navigation (↑/↓, Enter, Esc)</div>
+            <div>🕒 Debounced fetch (300ms)</div>
+            <div>🚫 Abort in-flight requests</div>
+            <div>🗂️ Client-side result caching</div>
+            <div>♿ ARIA combobox/listbox</div>
+            <div>🔄 Loading, error, empty states</div>
+            <div>🧭 Auto-scroll to active item</div>
+            <div>🎯 Optional auto-focus</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

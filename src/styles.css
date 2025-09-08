@@ -2,3 +2,61 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.demo-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #f6f7fb;
+  padding: 40px 20px;
+}
+
+.demo-card {
+  width: 600px;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  padding: 32px 40px 28px;
+  position: relative;
+}
+
+.demo-title {
+  margin: 0 0 8px;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.demo-subtitle {
+  margin: 0 0 20px;
+  color: #5f6368;
+  font-size: 18px;
+}
+
+.demo-inputs {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 10px 0 8px;
+  position: relative;
+}
+
+.demo-features {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #eaecef;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 16px;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.demo-features > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}

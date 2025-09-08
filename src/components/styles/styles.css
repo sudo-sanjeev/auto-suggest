@@ -1,5 +1,5 @@
 .search-container {
-  width: 500px;
+  width: 480px;
   height: 40px;
   padding: 0 20px;
   border: 2px solid #e1e5e9;
@@ -14,10 +14,10 @@
 }
 
 .suggestion-container {
-  width: 500px;
+  width: 480px;
   margin: 4px auto 0;
   padding: 8px 20px;
-  max-height: 320px;
+  max-height: 200px;
   overflow-y: auto;
   scrollbar-width: none;
   background: white;
@@ -25,6 +25,11 @@
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
 }
 
 .suggestion,
@@ -45,7 +50,6 @@
   transition: all 0.15s ease;
 }
 
-.suggestion:hover,
 .suggestion-active {
   background: #f8f9fa;
   border-left-color: #4285f4;

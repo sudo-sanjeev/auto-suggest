@@ -10,10 +10,7 @@ export const useCustomFetch = (fetchSuggestions, debounceTime = 300) => {
   const abortController = useRef(null);
 
   const fetchResults = async () => {
-    if (!query.trim()) {
-      return;
-    }
-
+    setError("");
     if (cache[query]) {
       setData(cache[query]);
       return;

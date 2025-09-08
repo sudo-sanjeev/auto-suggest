@@ -10,6 +10,7 @@ export default function AutoSuggest({
   noResultsMessage = "No result found",
   dataKey = "name",
   fetchSuggestions,
+  autoFocus = false,
 }) {
   const [showResults, setShowResults] = useState(false);
   const { data, error, query, loading, setQuery } =
@@ -47,6 +48,7 @@ export default function AutoSuggest({
         onChange={(e) => {
           setQuery(e.target.value);
         }}
+        autoFocus={autoFocus}
         onFocus={() => setShowResults(true)}
         onBlur={() => {
           setShowResults(false);
