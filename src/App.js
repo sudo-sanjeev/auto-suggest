@@ -25,7 +25,6 @@ export default function App() {
               customLoading="Searching..."
               dataKey="name"
               fetchSuggestions={fetchSuggestions}
-              autoFocus
             />
           </div>
           <div className="demo-features">
