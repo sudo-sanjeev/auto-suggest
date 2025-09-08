@@ -34,7 +34,6 @@ export default function SuggestionList({
             ref={isActive ? scrollToActiveItem : null}
             className={`suggestion ${isActive ? "suggestion-active" : ""}`}
             onClick={() => onSuggestionClick(suggestion)}
-            onMouseDown={(e) => e.preventDefault()}
             onMouseEnter={() => onMouseEnter(index)}
             role="option"
             aria-selected={isActive}

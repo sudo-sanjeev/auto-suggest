@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useCustomFetch } from "../hooks/useCustomFetch";
 import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
 import SuggestionList from "./SuggestionList";
-import "./styles.css";
+import "./styles/styles.css";
 
 export default function AutoSuggest({
   placeholder = "Search...",
@@ -14,7 +14,6 @@ export default function AutoSuggest({
   const [showResults, setShowResults] = useState(false);
   const { data, error, query, loading, setQuery } =
     useCustomFetch(fetchSuggestions);
-  const blurTimeoutRef = useRef(null);
 
   const handleClose = () => {
     setShowResults(false);
@@ -23,10 +22,7 @@ export default function AutoSuggest({
   const handleSuggestionSelect = (item) => {
     const displayValue = dataKey ? item[dataKey] : item;
     setQuery(displayValue);
-    setShowResults(false);
-    if (blurTimeoutRef.current) {
-      clearTimeout(blurTimeoutRef.current);
-    }
+    handleClose();
   };
 
   const {
@@ -42,20 +38,6 @@ export default function AutoSuggest({
     showResults
   );
 
-  const handleFocus = () => {
-    if (blurTimeoutRef.current) {
-      clearTimeout(blurTimeoutRef.current);
-    }
-    setShowResults(true);
-  };
-
-  const handleBlur = () => {
-    blurTimeoutRef.current = setTimeout(() => {
-      setShowResults(false);
-      resetActiveIndex();
-    }, 250);
-  };
-
   return (
     <div>
       <input
@@ -65,8 +47,11 @@ export default function AutoSuggest({
         onChange={(e) => {
           setQuery(e.target.value);
         }}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        onFocus={() => setShowResults(true)}
+        onBlur={() => {
+          setShowResults(false);
+          resetActiveIndex();
+        }}
         onKeyDown={handleKeyDown}
         role="combobox"
         aria-expanded={showResults}
