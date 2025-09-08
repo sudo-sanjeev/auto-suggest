@@ -13,6 +13,7 @@ export default function AutoSuggest({
   autoFocus = false,
 }) {
   const [showResults, setShowResults] = useState(false);
+  const blurTimeoutRef = useRef(null);
   const { data, error, query, loading, setQuery } =
     useCustomFetch(fetchSuggestions);
 
@@ -24,6 +25,9 @@ export default function AutoSuggest({
     const displayValue = dataKey ? item[dataKey] : item;
     setQuery(displayValue);
     handleClose();
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+    }
   };
 
   const {
@@ -49,10 +53,17 @@ export default function AutoSuggest({
           setQuery(e.target.value);
         }}
         autoFocus={autoFocus}
-        onFocus={() => setShowResults(true)}
+        onFocus={() => {
+          if (blurTimeoutRef.current) {
+            clearTimeout(blurTimeoutRef.current);
+          }
+          setShowResults(true);
+        }}
         onBlur={() => {
-          setShowResults(false);
-          resetActiveIndex();
+          blurTimeoutRef.current = setTimeout(() => {
+            setShowResults(false);
+            resetActiveIndex();
+          }, 250);
         }}
         onKeyDown={handleKeyDown}
         role="combobox"

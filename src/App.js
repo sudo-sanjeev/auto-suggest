@@ -29,7 +29,7 @@ export default function App() {
             />
           </div>
           <div className="demo-features">
-            <div>⌨️ Keyboard navigation (↑/↓, Enter, Esc)</div>
+            <div>⌨️ Keyboard navigation</div>
             <div>🕒 Debounced fetch (300ms)</div>
             <div>🚫 Abort in-flight requests</div>
             <div>🗂️ Client-side result caching</div>
