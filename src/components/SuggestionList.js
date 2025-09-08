@@ -31,7 +31,7 @@ export default function SuggestionList({
         return (
           <li
             key={suggestion.id}
-            ref={isActive ? scrollToActiveItem : null}
+            ref={isActive ? (el) => scrollToActiveItem(el) : null}
             className={`suggestion ${isActive ? "suggestion-active" : ""}`}
             onClick={() => onSuggestionClick(suggestion)}
             onMouseEnter={() => onMouseEnter(index)}
