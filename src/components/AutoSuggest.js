@@ -49,7 +49,7 @@ export default function AutoSuggest({
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
-      {
+      {showResults && (
         <SuggestionList
           loading={loading}
           error={error}
@@ -59,7 +59,7 @@ export default function AutoSuggest({
           customLoading={customLoading}
           noResultsMessage={noResultsMessage}
         />
-      }
+      )}
     </div>
   );
 }
