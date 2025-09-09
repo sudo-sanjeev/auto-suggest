@@ -4,6 +4,8 @@ A comprehensive, reusable React component for auto-suggestion input fields, desi
 
 GitHub Repository: https://github.com/sudo-sanjeev/auto-suggest
 
+📖 **Detailed Article**: [React Machine Coding Interview Guide: Autosuggest Component](https://medium.com/@sanjeev-singh/react-machine-coding-interview-guide-autosuggest-component-91b8b20494c8)
+
 ## ✅ Milestones
 
 | Milestone | Description                                                                                                                                                                                    |
